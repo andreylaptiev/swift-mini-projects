@@ -12,10 +12,11 @@ class TableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = "Storm Viewer"
         navigationController?.navigationBar.prefersLargeTitles = true
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(recommendApp))
+
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         let files = try! fm.contentsOfDirectory(atPath: path)
@@ -44,5 +45,15 @@ class TableViewController: UITableViewController {
             vc.imagesCount = images.count
             navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    @objc func recommendApp() {
+        let text = "Storm Viewer is epic! Check it out!"
+
+        let vc = UIActivityViewController(activityItems: [text], applicationActivities: [])
+        // for iPad
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+
+        present(vc, animated: true)
     }
 }

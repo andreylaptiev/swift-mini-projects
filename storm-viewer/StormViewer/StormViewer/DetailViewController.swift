@@ -18,6 +18,7 @@ class DetailViewController: UIViewController {
 
         title = "Picture \(imageNumber!) of \(imagesCount!)"
         navigationItem.largeTitleDisplayMode = .never
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share))
 
         if let imageToLoad = selectedImage {
             imageView.image = UIImage(named: imageToLoad)
@@ -32,5 +33,25 @@ class DetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.hidesBarsOnTap = false
+    }
+
+    @objc func share() {
+        guard let image = imageView.image, let imageName = selectedImage else {
+            let alert = UIAlertController(
+                title: "No image found",
+                message: "Nothing to share",
+                preferredStyle: .alert
+            )
+            let action = UIAlertAction(title: "OK", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
+            return
+        }
+
+        let vc = UIActivityViewController(activityItems: [image, imageName], applicationActivities: [])
+        // for iPad
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+
+        present(vc, animated: true)
     }
 }
