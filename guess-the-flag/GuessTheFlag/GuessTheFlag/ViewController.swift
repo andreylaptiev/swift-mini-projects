@@ -30,6 +30,8 @@ class ViewController: UIViewController {
         flag1.layer.borderColor = UIColor.black.cgColor
         flag2.layer.borderColor = UIColor.black.cgColor
         flag3.layer.borderColor = UIColor.black.cgColor
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showScore))
 
         askQuestion()
     }
@@ -52,6 +54,13 @@ class ViewController: UIViewController {
         score = 0
         ViewController.numberOfQuestions = 10
         askQuestion()
+    }
+
+
+    @objc func showScore() {
+        let alert = UIAlertController(title: "Score", message: String(score), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 
 
